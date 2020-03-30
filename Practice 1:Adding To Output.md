@@ -1,7 +1,7 @@
 Que: Make cout+5; statement to work as cout<<5
 Concept:Operator overloading 
 Solution:
-...
+```c++
 #include <iostream>
 using namespace std;
 
@@ -15,5 +15,4 @@ int main()
     cout + 5;
     return 0;
 }
-...
-
+```
