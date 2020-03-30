@@ -2,17 +2,16 @@ Que: Make cout+5; statement to work as cout<<5
 Concept:Operator overloading 
 Solution:
 ```c++
-#include <iostream>
+#include <iostream> 
 using namespace std;
-
-ostream &operator+(ostream &os, int a)
+template <typename T>
+ostream& operator+(ostream& os, T a)
 {
-    os << a;
-    return os;
+  os<<a;
+  return os;
 }
-int main()
-{
-    cout + 5;
-    return 0;
+int main() {
+  cout+'c'+1;
+  return 0;
 }
 ```
