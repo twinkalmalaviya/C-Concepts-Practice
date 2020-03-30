@@ -1,6 +1,5 @@
-```c++
+``` c++
 #include <iostream>
-#include <initializer_list>
 using namespace std;
 
 template<typename T,size_t N > 
@@ -19,29 +18,15 @@ public:
            array(initializer_list<T> l){ 
              int i=0;
              for(auto &input_l:l)
-            // for(auto &input_v:elems)
              elems[i++]=input_l;             
            cout << "T 5 int_value Constructor\n";
     }
-       template<size_t N1>
-       array(T int_value,array<T, N1> input)
-      // array(T int_value,int i,int i2,int i3,int i4) 
-       {   int i=0;
-           for(auto &input_v:elems)
-           input_v=input[i++];
-           cout << "T 5 int_value Constructor\n";
-       }
 
 /*member methods of array */
         size_t size() {
             return array_size;
         }
-        // void display(){
-        //     cout << "["<< " ";
-        //     for (size_t i = 0; i < array_size; i++) 
-        //     cout << elems[i] << " ";
-        //     cout << "]"<< endl;
-        // }
+
 /*Operations of array */
         T &operator[](size_t position) {
             if(position<array_size)
@@ -59,7 +44,12 @@ public:
         //         else
         //             break;
         // }
-
+        // void display(){
+        //     cout << "["<< " ";
+        //     for (size_t i = 0; i < array_size; i++) 
+        //     cout << elems[i] << " ";
+        //     cout << "]"<< endl;
+        // }
 
 };
 
