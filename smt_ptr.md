@@ -1,41 +1,42 @@
 ```c++
-#include<iostream>
-using namespace std;
+#include <iostream>
 
-template <typename T>
+template<typename T>
 class smart_ptr
 {
     T *ptr;
-    
-    public:
+
+public:
     smart_ptr()=default;
-    smart_ptr(T *in_ptr)
+    smart_ptr(T* in_ptr)
     {
-        ptr = in_ptr;
+         ptr = in_ptr;
     }
-    smart_ptr(const smart_ptr<T> &in_ptr)
+    smart_ptr(const smart_ptr &rhs)
     {
         ptr = new T;
-        *ptr = *in_ptr.ptr;
-        cout<<"user def con\n";
+        *ptr = *rhs.ptr;
+        std::cout<<"user def copy construct\n";
     }
-    smart_ptr &operator=(const smart_ptr &rhs)
+    smart_ptr &operator =(const smart_ptr &rhs)
     {
         if(this != &rhs)
         {
-            *ptr = *rhs.ptr;
+            *ptr=*rhs.ptr;
+            std::cout << "user def assignment\n";
         }
-        cout<<"user def assign\n";
+        
         return *this;
     }
-    T &operator*()
+    T &operator *()
     {
         return *ptr;
     }
-    T *operator->()
+    T *operator ->()
     {
         return ptr;
     }
+
 };
 
 int main()
@@ -45,29 +46,30 @@ int main()
 
     *i_ptr = 5;
 
-    cout << *i_ptr << endl;
+    std::cout << *i_ptr << std::endl;
 
     // 2. Should work with class & struct
     struct test
     {
         int var;
-        test() { cout << "C\n"; }
-        ~test() { cout << "D\n"; }
+        test() { std::cout << "C\n"; }
+        ~test() { std::cout << "D\n"; }
     };
 
     smart_ptr<test> t_ptr(new test);
 
     t_ptr->var = 10;
 
-    cout << t_ptr->var << endl;
+    std::cout << t_ptr->var << std::endl;
 
     // 3. Copy construction
     auto ptr = i_ptr;
 
-    cout << *ptr << endl;
+    std::cout << *ptr << std::endl;
 
     // 4. Assignment chain
-    i_ptr = i_ptr = i_ptr;
+    ptr = i_ptr = ptr;
+    std::cout<<"ending the program\n";
     return 0;
 }
 ```
