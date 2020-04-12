@@ -1,101 +1,88 @@
-```C++
+```c++
 #include<iostream>
-using namespace std;
 
 class account
 {
-
-    double Ac_balance=0;
-    string holder_name;
-
+    std::string name;
+    double ac_balance;
+    
 public:
-    enum class TYPE : uint32_t
+    enum TYPE
     {
         SAVING = 0,
         CURRENT
-    };
-    TYPE AC_TYPE;
-    account(const string name) : holder_name{name}
+    } ;
+    TYPE Ac_type;
+    account(std::string h_name, TYPE type,double op_bal = 0) : name{h_name}, ac_balance{op_bal}, Ac_type{type}
     {
-        
-    }
-    virtual ~account()
-    {
-        cout << holder_name<<" deleted"<<endl;
-    }
-    void deposit(double de_amount)
-    {
-        Ac_balance = Ac_balance + de_amount;
-    }
-    void withdraw(double Wd_amount)
-    {
-        if (Wd_amount <= Ac_balance)
-            Ac_balance -= Wd_amount;
-        else
-        {
-            
-        }
-        
-    }
-    TYPE type()
-    {
-        return AC_TYPE;
-    }
-    string holder()
-    {
-        return holder_name;
 
+    }
+    virtual ~account(){
+        std::cout << " " << name <<" deleted\n ";
+    } std::string holder()
+    {
+        return name;
     }
     double balance()
     {
-        return Ac_balance;
+        return ac_balance;
     }
-    virtual float interest_rate()
+
+     void deposit(double de_amount)
     {
-        return 0;
+        ac_balance = ac_balance + de_amount;
     }
+     void withdraw(double Wd_amount)
+    {
+        if (Wd_amount <= ac_balance)
+            ac_balance -= Wd_amount;
+        else
+        {
+            std::cout<<"ac_balance is less then withdrawl amout\n";
+        }
+    }
+    TYPE type()
+    {
+        return Ac_type;
+    }
+    virtual double interest_rate()=0;
 };
 
 class saving_account:public account
 {
-    float Int_rate;
-
+    double in_rate;
 public:
-    saving_account(const string name, float rate = 4.5) : account(name), Int_rate(rate)
+    saving_account(std::string name,double op_bal=0,double ist_rate=4.5):account(name,TYPE::SAVING,op_bal)
     {
-
-        /* code */
-        AC_TYPE = TYPE::SAVING;
+        in_rate =ist_rate;
     }
     ~saving_account()
     {
-        cout << "saving account of ";
+        std::cout << "saving account of";
     }
-    virtual float interest_rate()
+    double interest_rate()
     {
-        return Int_rate;
+        return in_rate;
     }
 };
 
 class current_account:public account
 {
-    float Int_rate;
-
+    double in_rate;
 public:
-    current_account(const string name,float rate = 4.0) : account(name),Int_rate(rate)
+    current_account(std::string name, double op_bal = 0, double ist_rate = 4) : account(name,TYPE::CURRENT, op_bal)
     {
-        AC_TYPE = TYPE::CURRENT;
+        in_rate = ist_rate;
     }
     ~current_account()
     {
-        cout << "current_account of ";
+        std::cout << "current account of";
     }
-    virtual float interest_rate()
+    double interest_rate()
     {
-        return Int_rate;
+        return in_rate;
     }
 };
-
 
 double fixed_deposit_rate(account *ac)
 {
@@ -109,13 +96,13 @@ void delete_account(account *ac)
 
 void print_saving_account(account *ac)
 {
-   // if (/* type casting condition to print saving account only */) // Do not use ac->type() method
-   if (ac->AC_TYPE == account::TYPE::SAVING)
-   {
-       cout << "holder : " << ac->holder() << endl;
-       cout << "balance : " << ac->balance() << endl;
-       cout << "interest rate : " << ac->interest_rate() << endl;
-       cout << "FD rates : " << fixed_deposit_rate(ac) << endl;
+    // if (/* type casting condition to print saving account only */) // Do not use ac->type() method
+    if (dynamic_cast<saving_account *>(ac))
+    {
+        std::cout << "holder : " << ac->holder() << std::endl;
+        std::cout << "balance : " << ac->balance() << std::endl;
+        std::cout << "interest rate : " << ac->interest_rate() << std::endl;
+        std::cout << "FD rates : " << fixed_deposit_rate(ac) << std::endl;
     }
 }
 
@@ -126,14 +113,14 @@ int main()
     s_ac->withdraw(100.30);
     print_saving_account(s_ac);
     delete_account(s_ac);
-    cout << endl;
+    std::cout << std::endl;
 
     current_account *c_ac = new current_account("Mathew");
     c_ac->deposit(10);
     c_ac->withdraw(100.30);
     print_saving_account(c_ac);
     delete_account(c_ac);
-    cout << endl;
+    std::cout << std::endl;
 
     return 0;
 }
